@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+/* Back link (navbar & footer di halaman detail) */
+.back-link{
+  display:flex;align-items:center;gap:8px;
+  font-family:"IBM Plex Mono",monospace;font-size:.75rem;
+  color:#B8B2A4;
+}
+.back-link:hover{color:#F0A93A}
+
+.detail-hero{padding-bottom:40px}
+.detail-title{max-width:40rem}
+
+/* Stat grid (section 01) */
+.stat-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:16px;
+}
+.stat-card{
+  padding:20px;border-radius:12px;background:#1A2226;border:1px solid #2A353A;
+}
+.stat-icon{color:#F0A93A;margin-bottom:10px}
+.stat-value{
+  display:block;font-family:"Space Grotesk",sans-serif;font-size:1.8rem;
+  font-weight:700;color:#EDE8DC;
+}
+.stat-label{
+  display:block;margin-top:4px;font-size:.8rem;color:#B8B2A4;line-height:1.4;
+}
+
+/* Timeline (section 03 — metodologi KDD) */
+.timeline{display:flex;flex-direction:column}
+.timeline-item{display:flex;gap:20px}
+.timeline-marker{
+  display:flex;flex-direction:column;align-items:center;flex-shrink:0;
+}
+.timeline-marker span:first-child{
+  width:32px;height:32px;border-radius:50%;
+  background:#1A2226;border:1px solid #F0A93A;color:#F0A93A;
+  display:flex;align-items:center;justify-content:center;
+  font-family:"IBM Plex Mono",monospace;font-size:.8rem;flex-shrink:0;
+}
+.timeline-connector{width:1px;flex:1;background:#2A353A;margin:4px 0}
+.timeline-body{padding-bottom:28px}
+.timeline-body h4{
+  font-family:"Space Grotesk",sans-serif;font-size:1rem;font-weight:600;color:#EDE8DC;
+}
+.timeline-body p{margin-top:6px;font-size:.85rem;color:#B8B2A4;line-height:1.6;max-width:32rem}
+
+/* Feature list (section 05) */
+.feature-list{display:flex;flex-direction:column;gap:18px}
+.feature-item{display:flex;gap:12px}
+.feature-item h4{
+  font-family:"Space Grotesk",sans-serif;font-size:.95rem;font-weight:600;color:#EDE8DC;
+}
+.feature-item p{margin-top:4px;font-size:.85rem;color:#B8B2A4;line-height:1.6}
+
+/* Limitation card (section 06) */
+.limitation-card{
+  display:flex;gap:14px;padding:20px;border-radius:12px;
+  background:#1A2226;border:1px solid #8C6A2C;
+}
+.limitation-card p{font-size:.88rem;color:#B8B2A4;line-height:1.7}
+
+/* Metrics grid override — 2 kolom di mobile, 4 di desktop (reuse metrics-grid) */
+@media (min-width:768px){
+  .stat-grid{grid-template-columns:repeat(4,1fr)}
+}
