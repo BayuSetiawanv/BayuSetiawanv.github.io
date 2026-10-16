@@ -12,782 +12,296 @@ import gambar10img from "./assets/intern2/las.png";
 import gambar11img from "./assets/intern2/dualas.png";
 import gambar12img from "./assets/intern2/tilas.png";
 import gambar13img from "./assets/intern2/patlas.png";
-
-
 import {
-  ArrowLeft,
-  Code2,
-  ExternalLink,
-  Database,
-  Layers,
-  Target,
-  AlertTriangle,
-  CheckCircle2,
-  TrendingUp,
-  BarChart3,
-  CalendarDays,
-  ChevronRight,
-  Sparkles,
+  ArrowLeft, Code2, Database, Layers, Target, AlertTriangle,
+  ChevronRight, Sparkles, CalendarDays,
 } from "lucide-react";
 
-/* =========================================================
-   GOOGLE FONTS
-========================================================= */
+const C = {
+  navy: "#0D1B2A", navyMid: "#1B263B", navyLight: "#415A77",
+  gold: "#D4AF37", goldSoft: "rgba(212,175,55,0.12)",
+  cream: "#F7F3E9", gray: "#B8B2A4", stone: "#8A8478",
+  serif: "'Cormorant Garamond', Georgia, serif",
+  sans: "'IBM Plex Sans', sans-serif", mono: "'IBM Plex Mono', monospace",
+};
 
 function useGoogleFonts() {
   useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: "instant",
-    });
-
-    const id = "portfolio-fonts";
-
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    const id = "portfolio-fonts-detail-3";
     if (document.getElementById(id)) return;
-
     const link = document.createElement("link");
-
-    link.id = id;
-    link.rel = "stylesheet";
-    link.href =
-      "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap";
-
+    link.id = id; link.rel = "stylesheet";
+    link.href = "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap";
     document.head.appendChild(link);
   }, []);
 }
 
-/* =========================================================
-   REUSABLE CONTAINER
-========================================================= */
-
-function Container({ children, className = "" }) {
+function Container({ children, style }) {
   return (
-    <div
-      className={`mx-auto w-full max-w-295 px-6 sm:px-8 lg:px-12 ${className}`}
-    >
+    <div style={{ maxWidth: 1160, width: "100%", margin: "0 auto", padding: "0 clamp(20px, 4vw, 40px)", ...style }}>
       {children}
     </div>
   );
 }
 
-/* =========================================================
-   SECTION LABEL
-========================================================= */
+function GoldDivider({ center }) {
+  return <div style={{ width: 64, height: 1, background: C.gold, margin: center ? "28px auto" : "28px 0" }} />;
+}
 
 function SectionLabel({ n, title, sub }) {
   return (
-    <div className="mb-12">
-      <div className="mb-4 flex items-center gap-3">
-        <span className="font-mono text-xs font-semibold tracking-[0.25em] text-amber-500">
-          {n}
-        </span>
-
-        <span className="h-px w-12 bg-amber-500/50" />
-
-        <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-slate-500">
-          Project Detail
-        </span>
+    <div style={{ marginBottom: 56 }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 18 }}>
+        <span style={{ fontFamily: C.mono, fontSize: 12, letterSpacing: "0.25em", color: C.gold, fontWeight: 600 }}>{n}</span>
+        <span style={{ width: 48, height: 1, background: C.gold, opacity: 0.45 }} />
+        <span style={{ fontFamily: C.mono, fontSize: 10, letterSpacing: "0.22em", color: C.stone, textTransform: "uppercase" }}>Project Detail</span>
       </div>
-
-      <h2 className="max-w-3xl font-['Space_Grotesk'] text-3xl font-bold tracking-tight text-slate-100 sm:text-4xl">
-        {title}
-      </h2>
-
-      {sub && (
-        <p className="mt-4 max-w-2xl font-['IBM_Plex_Sans'] text-sm leading-7 text-slate-400">
-          {sub}
-        </p>
-      )}
+      <h2 style={{ fontFamily: C.serif, fontSize: "clamp(2rem, 3.6vw, 2.75rem)", fontWeight: 600, color: C.cream, lineHeight: 1.15, margin: 0 }}>{title}</h2>
+      {sub && <p style={{ fontFamily: C.sans, fontSize: 15, lineHeight: 1.75, color: C.gray, marginTop: 14, maxWidth: 640 }}>{sub}</p>}
     </div>
   );
 }
-
-/* =========================================================
-   STAT CARD
-========================================================= */
 
 function StatCard({ icon, value, label }) {
   return (
-    <div className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.035] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-amber-500/30 hover:bg-white/5.5 hover:shadow-2xl hover:shadow-black/20">
-      <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-amber-500/5 blur-2xl transition-all duration-300 group-hover:bg-amber-500/10" />
-
-      <div className="relative">
-        <div className="mb-6 flex h-10 w-10 items-center justify-center rounded-xl border border-amber-500/20 bg-amber-500/10 text-amber-400">
-          {icon}
-        </div>
-
-        <div className="font-['Space_Grotesk'] text-4xl font-bold tracking-tight text-white">
-          {value}
-        </div>
-
-        <p className="mt-2 max-w-47.5 font-['IBM_Plex_Sans'] text-xs leading-5 text-slate-500">
-          {label}
-        </p>
-      </div>
+    <div className="royal-hover" style={{ background: C.navyMid, border: `1px solid ${C.navyLight}`, borderRadius: 10, padding: 28, transition: "all .3s ease" }}>
+      <div style={{ width: 40, height: 40, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", background: C.goldSoft, color: C.gold, marginBottom: 22 }}>{icon}</div>
+      <div style={{ fontFamily: C.serif, fontSize: 28, fontWeight: 600, color: C.cream, lineHeight: 1.2 }}>{value}</div>
+      <p style={{ fontFamily: C.sans, fontSize: 12.5, lineHeight: 1.6, color: C.gray, marginTop: 10 }}>{label}</p>
     </div>
   );
 }
-
-/* =========================================================
-   TIMELINE ITEM
-========================================================= */
 
 function TimelineItem({ n, title, desc, last }) {
   return (
-    <div className="group relative flex gap-6 pb-10 last:pb-0">
-      {!last && (
-        <div className="absolute left-4.25 top-10 h-[calc(100%-10px)] w-px bg-linear-to-b from-amber-500/40 to-white/5" />
-      )}
-
-      <div className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-amber-500/30 bg-slate-950 font-mono text-xs font-semibold text-amber-400 transition-all duration-300 group-hover:border-amber-400 group-hover:bg-amber-500/10 group-hover:shadow-lg group-hover:shadow-amber-500/10">
-        {n}
-      </div>
-
-      <div className="pt-0.5">
-        <h4 className="font-['Space_Grotesk'] text-lg font-semibold text-slate-100">
-          {title}
-        </h4>
-
-        <p className="mt-2 max-w-2xl font-['IBM_Plex_Sans'] text-sm leading-7 text-slate-400">
-          {desc}
-        </p>
+    <div style={{ display: "flex", gap: 24, paddingBottom: last ? 0 : 44, position: "relative" }}>
+      {!last && <span style={{ position: "absolute", left: 17, top: 40, bottom: 0, width: 1, background: "linear-gradient(to bottom, rgba(212,175,55,0.4), rgba(65,90,119,0.15))" }} />}
+      <span style={{ width: 36, height: 36, borderRadius: "50%", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", border: `1px solid rgba(212,175,55,0.35)`, background: C.navy, fontFamily: C.mono, fontSize: 12, color: C.gold, fontWeight: 600 }}>{n}</span>
+      <div style={{ paddingTop: 2 }}>
+        <h4 style={{ fontFamily: C.serif, fontSize: 22, fontWeight: 600, color: C.cream, margin: 0 }}>{title}</h4>
+        <p style={{ fontFamily: C.sans, fontSize: 14, lineHeight: 1.75, color: C.gray, marginTop: 8, maxWidth: 680 }}>{desc}</p>
       </div>
     </div>
   );
 }
-
-/* =========================================================
-   METRIC CARD
-========================================================= */
-
-function MetricCard({ label, value, unit, description, icon }) {
-  return (
-    <div className="group relative overflow-hidden rounded-2xl border border-white/10 bg-linear-to-br from-white/6 to-white/2 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-amber-500/30">
-      <div className="absolute right-0 top-0 h-28 w-28 translate-x-1/3 -translate-y-1/3 rounded-full bg-amber-500/10 blur-3xl" />
-
-      <div className="relative">
-        <div className="mb-5 flex items-center justify-between">
-          <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
-            {label}
-          </span>
-
-          <div className="text-amber-400">{icon}</div>
-        </div>
-
-        <div className="flex items-end gap-2">
-          <span className="font-['Space_Grotesk'] text-3xl font-bold tracking-tight text-white sm:text-4xl">
-            {value}
-          </span>
-
-          {unit && (
-            <span className="mb-1 font-mono text-sm text-amber-400">
-              {unit}
-            </span>
-          )}
-        </div>
-
-        {description && (
-          <p className="mt-3 font-['IBM_Plex_Sans'] text-xs leading-5 text-slate-500">
-            {description}
-          </p>
-        )}
-      </div>
-    </div>
-  );
-}
-
-/* =========================================================
-   FEATURE CARD
-========================================================= */
 
 function FeatureItem({ title, desc, src, number }) {
   return (
-    <div className="group overflow-hidden rounded-2xl border border-white/10 bg-white/3 transition-all duration-300 hover:-translate-y-1 hover:border-amber-500/30 hover:bg-white/5">
-      <div className="relative overflow-hidden border-b border-white/10 bg-slate-900">
-        <div className="absolute left-4 top-4 z-10 flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-slate-950/80 font-mono text-[10px] font-semibold text-amber-400 backdrop-blur">
-          {number}
-        </div>
-
-        <img
-          src={src}
-          alt={title}
-          className="block aspect-video w-full object-cover object-top opacity-90 transition duration-500 group-hover:scale-[1.025] group-hover:opacity-100"
-        />
-
-        <div className="absolute inset-x-0 bottom-0 h-20 bg-linear-to-t from-slate-950/80 to-transparent" />
+    <div className="royal-hover" style={{ border: `1px solid ${C.navyLight}`, borderRadius: 10, overflow: "hidden", background: C.navyMid, transition: "all .3s ease" }}>
+      <div style={{ position: "relative", borderBottom: `1px solid ${C.navyLight}`, background: C.navy }}>
+        <span style={{ position: "absolute", top: 14, left: 14, zIndex: 2, width: 30, height: 30, borderRadius: 6, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(13,27,42,0.85)", border: `1px solid ${C.navyLight}`, fontFamily: C.mono, fontSize: 10, color: C.gold, fontWeight: 600 }}>{number}</span>
+        <img src={src} alt={title} style={{ width: "100%", aspectRatio: "16/9", objectFit: "cover", objectPosition: "top", display: "block" }} />
       </div>
-
-      <div className="p-6">
-        <div className="mb-3 flex items-center justify-between gap-4">
-          <h4 className="font-['Space_Grotesk'] text-lg font-semibold text-slate-100">
-            {title}
-          </h4>
-
-          <ChevronRight
-            size={17}
-            className="shrink-0 text-slate-600 transition-all duration-300 group-hover:translate-x-1 group-hover:text-amber-400"
-          />
+      <div style={{ padding: 24 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
+          <h4 style={{ fontFamily: C.serif, fontSize: 20, fontWeight: 600, color: C.cream, margin: 0 }}>{title}</h4>
+          <ChevronRight size={16} style={{ color: C.stone, flexShrink: 0 }} />
         </div>
-
-        <p className="font-['IBM_Plex_Sans'] text-sm leading-6 text-slate-400">
-          {desc}
-        </p>
+        <p style={{ fontFamily: C.sans, fontSize: 13.5, lineHeight: 1.65, color: C.gray, marginTop: 8 }}>{desc}</p>
       </div>
     </div>
   );
 }
-
-/* =========================================================
-   STACK BADGE
-========================================================= */
 
 function StackChip({ name }) {
   return (
-    <div className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.035] px-4 py-2.5 font-['IBM_Plex_Sans'] text-xs font-medium text-slate-300 transition-all duration-300 hover:border-amber-500/30 hover:bg-amber-500/[0.07] hover:text-amber-300">
-      <span className="h-1.5 w-1.5 rounded-full bg-amber-500 transition-transform duration-300 group-hover:scale-125" />
-
+    <span style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "9px 18px", borderRadius: 999, border: `1px solid ${C.navyLight}`, background: C.navyMid, fontFamily: C.sans, fontSize: 12.5, color: C.cream }}>
+      <span style={{ width: 6, height: 6, borderRadius: "50%", background: C.gold }} />
       {name}
-    </div>
+    </span>
   );
 }
 
-/* =========================================================
-   BACKGROUND GRID
-========================================================= */
-
-function BackgroundGrid() {
-  return (
-    <div
-      className="pointer-events-none fixed inset-0 -z-10 opacity-[0.025]"
-      style={{
-        backgroundImage:
-          "linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)",
-        backgroundSize: "50px 50px",
-      }}
-    />
-  );
-}
-
-/* =========================================================
-   MAIN COMPONENT
-========================================================= */
-
-export default function SkripsiDetail({ onBack }) {
+export default function Skripsidetail3({ onBack }) {
   useGoogleFonts();
-
-  const stack = [
-    "Flutter",
-    "Laravel",
-    "Dart",
-    "Php",
-    "Restful API",
-    "MySQL",
-    "css Tailwind",
-    "android Mobile",
-  ];
+  const stack = ["Flutter", "Laravel", "Dart", "PHP", "RESTful API", "MySQL", "Tailwind CSS", "Android Mobile"];
+  const sectionStyle = { padding: "clamp(56px, 9vw, 96px) 0", borderBottom: `1px solid rgba(65,90,119,0.4)` };
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-[#080b10] text-slate-100">
-      <BackgroundGrid />
+    <div style={{ minHeight: "100vh", background: C.navy, color: C.cream, overflowX: "hidden" }}>
+      <style>{`.royal-hover:hover { transform: translateY(-4px); border-color: rgba(212,175,55,0.45) !important; box-shadow: 0 18px 40px rgba(0,0,0,0.35); }.royal-btn:hover { transform: translateY(-2px); }`}</style>
 
-      {/* =====================================================
-          NAVBAR
-      ===================================================== */}
-
-      <nav className="sticky top-0 z-50 border-b border-white/6 bg-[#080b10]/85 backdrop-blur-xl">
-        <Container className="flex h-16 items-center">
-          <button
-            onClick={onBack}
-            className="group inline-flex items-center gap-2 font-['IBM_Plex_Sans'] text-[11px] font-semibold tracking-[0.12em] text-slate-500 transition hover:text-amber-400"
-          >
-            <ArrowLeft
-              size={14}
-              className="transition-transform duration-300 group-hover:-translate-x-1"
-            />
-
-            <span>KEMBALI KE PORTOFOLIO</span>
+      <nav style={{ position: "sticky", top: 0, zIndex: 50, background: "rgba(13,27,42,0.92)", backdropFilter: "blur(12px)", borderBottom: `1px solid rgba(65,90,119,0.4)` }}>
+        <Container style={{ height: 64, display: "flex", alignItems: "center" }}>
+          <button onClick={onBack} style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: C.sans, fontSize: 11, fontWeight: 600, letterSpacing: "0.14em", color: C.gray, background: "none", border: "none", cursor: "pointer" }}>
+            <ArrowLeft size={14} /> KEMBALI KE PORTOFOLIO
           </button>
         </Container>
       </nav>
 
-      {/* =====================================================
-          HERO
-      ===================================================== */}
-
-      <header className="relative border-b border-white/6">
-        <div className="absolute left-1/2 top-0 h-125 w-200 -translate-x-1/2 -translate-y-1/3 rounded-full bg-amber-500/[0.035] blur-[120px]" />
-
-        <Container className="relative pb-20 pt-14 sm:pb-24 sm:pt-16 lg:pb-28 lg:pt-20">
-          <div className="max-w-225">
-            <div className="mb-6 flex flex-wrap items-center gap-3">
-              <span className="inline-flex items-center gap-2 rounded-full border border-amber-500/20 bg-amber-500/[0.07] px-3 py-1.5 font-mono text-[10px] font-semibold tracking-[0.18em] text-amber-400">
-                <Sparkles size={12} />
-                INTERNSHIP PROJECT
-              </span>
-
-              <span className="font-mono text-[11px] text-slate-600">
-                /
-              </span>
-
-              <span className="font-mono text-[11px] tracking-[0.15em] text-slate-500">
-                2025
-              </span>
-            </div>
-
-            <h1 className="font-['Space_Grotesk'] text-4xl font-bold leading-[1.08] tracking-[-0.035em] text-white sm:text-5xl lg:text-7xl">
-              HI Inventory 
-              <br />
-
-              <span className="text-slate-400">
-                Mobile App Redesign
-              </span>
-
-              <span className="text-amber-400">.</span>
-            </h1>
-
-            <div className="mt-5 flex items-center gap-3">
-              <span className="h-px w-8 bg-amber-500" />
-
-              <span className="font-['IBM_Plex_Sans'] text-sm font-medium text-slate-400">
-                PT Honoris Industry
-              </span>
-            </div>
-
-            <p className="mt-6 max-w-3xl font-['IBM_Plex_Sans'] text-base leading-8 text-slate-400 sm:text-lg">
-              HI Inventory Mobile App Redesign merupakan proyek yang saya kerjakan selama Praktik Kerja Lapang di 
-              PT Honoris Industry dengan meredesain sistem inventori berbasis website menjadi aplikasi mobile menggunakan Flutter.{" "}
-              Aplikasi ini mendukung pengelolaan data barang masuk dan barang keluar, serta terintegrasi dengan backend Laravel melalui 
-              REST API dan database MySQL untuk menyediakan akses data inventori secara efisien dan real-time.{" "}
-            </p>
-
-            <div className="mt-8 flex flex-wrap gap-3">
-              <a
-                href="https://github.com/BayuSetiawanv/Hi_inventory"
-                className="group inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.035] px-5 py-3 font-['IBM_Plex_Sans'] text-xs font-bold tracking-wide text-slate-300 transition-all duration-300 hover:-translate-y-0.5 hover:border-white/20 hover:bg-white/6 hover:text-white"
-              >
-                <Code2 size={15} />
-                SOURCE CODE
-              </a>
-            </div>
+      <header style={{ borderBottom: `1px solid rgba(65,90,119,0.4)`, position: "relative" }}>
+        <div style={{ position: "absolute", top: -200, left: "50%", transform: "translateX(-50%)", width: 700, height: 400, borderRadius: "50%", background: "rgba(212,175,55,0.06)", filter: "blur(110px)", pointerEvents: "none" }} />
+        <Container style={{ position: "relative", padding: "clamp(64px, 10vw, 110px) clamp(20px,4vw,40px) clamp(56px, 9vw, 90px)", textAlign: "center" }}>
+          <span style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "7px 16px", borderRadius: 999, border: "1px solid rgba(212,175,55,0.3)", background: "rgba(212,175,55,0.08)", fontFamily: C.mono, fontSize: 10, letterSpacing: "0.22em", color: C.gold, fontWeight: 600 }}>
+            <Sparkles size={12} /> INTERNSHIP PROJECT · 2025
+          </span>
+          <h1 style={{ fontFamily: C.serif, fontWeight: 600, color: C.cream, fontSize: "clamp(2.6rem, 8vw, 5.25rem)", lineHeight: 1.05, letterSpacing: "-0.01em", margin: "36px 0 0" }}>
+            HI Inventory
+          </h1>
+          <p style={{ fontFamily: C.serif, fontStyle: "italic", fontSize: "clamp(1.4rem, 3vw, 2rem)", color: C.gray, margin: "10px 0 0", fontWeight: 500 }}>
+            Mobile App Redesign<span style={{ color: C.gold }}>.</span>
+          </p>
+          <GoldDivider center />
+          <p style={{ fontFamily: C.sans, fontSize: 16, lineHeight: 1.85, color: C.gray, maxWidth: 760, margin: "0 auto" }}>
+            Redesain sistem inventori internal PT Honoris Industry dari platform berbasis
+            website menjadi aplikasi mobile menggunakan Flutter. Terintegrasi dengan{" "}
+            <strong style={{ color: C.cream, fontWeight: 600 }}>backend Laravel via REST API</strong>{" "}
+            dan database MySQL untuk akses data inventori yang efisien dan real-time.
+          </p>
+          <div style={{ display: "flex", justifyContent: "center", gap: 14, marginTop: 40, flexWrap: "wrap" }}>
+            <a href="https://github.com/BayuSetiawanv/Hi_inventory" target="_blank" rel="noreferrer" className="royal-btn" style={{ display: "inline-flex", alignItems: "center", gap: 9, background: C.gold, color: C.navy, borderRadius: 4, padding: "14px 28px", fontFamily: C.sans, fontSize: 12, fontWeight: 700, letterSpacing: "0.14em", transition: "all .3s ease" }}>
+              <Code2 size={15} /> SOURCE CODE
+            </a>
           </div>
 
-          {/* HERO METADATA */}
-
-          <div className="mt-14 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/[0.07] bg-white/[0.07] sm:grid-cols-4">
-            <div className="bg-[#0b0f15] p-5">
-              <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-slate-600">
-                Framework
-              </span>
-
-              <p className="mt-2 font-['Space_Grotesk'] text-sm font-semibold text-slate-200">
-                Flutter (Frontend Mobile), Laravel (Backend REST API)
-              </p>
-            </div>
-
-            <div className="bg-[#0b0f15] p-5">
-              <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-slate-600">
-                Database
-              </span>
-
-              <p className="mt-2 font-['Space_Grotesk'] text-sm font-semibold text-slate-200">
-                MySQL
-              </p>
-            </div>
-
-            <div className="bg-[#0b0f15] p-5">
-              <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-slate-600">
-                Platform
-              </span>
-
-              <p className="mt-2 font-['Space_Grotesk'] text-sm font-semibold text-slate-200">
-                Android Mobile (Cross-platform Flutter)
-              </p>
-            </div>
-
-            <div className="bg-[#0b0f15] p-5">
-              <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-slate-600">
-                Fitur Utama
-              </span>
-
-              <p className="mt-2 font-['Space_Grotesk'] text-sm font-semibold text-slate-200">
-                Login, Barang Masuk, Barang Keluar, Riwayat Inventori, Integrasi REST API
-              </p>
-            </div>
+          <div style={{ marginTop: 72, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 220px), 1fr))", border: `1px solid ${C.navyLight}`, borderRadius: 10, overflow: "hidden", background: C.navyMid, textAlign: "left" }}>
+            {[["Frontend", "Flutter Mobile"], ["Backend", "Laravel REST API"], ["Database", "MySQL"], ["Platform", "Android"]].map(([k, v], i, arr) => (
+              <div key={k} style={{ padding: "22px 26px", background: C.navy, borderRight: i < arr.length - 1 ? `1px solid rgba(65,90,119,0.4)` : "none" }}>
+                <span style={{ fontFamily: C.mono, fontSize: 9.5, letterSpacing: "0.2em", color: C.stone, textTransform: "uppercase" }}>{k}</span>
+                <p style={{ fontFamily: C.serif, fontSize: 19, fontWeight: 600, color: C.cream, margin: "8px 0 0" }}>{v}</p>
+              </div>
+            ))}
           </div>
         </Container>
       </header>
 
-      {/* =====================================================
-          01 — STATISTIK
-      ===================================================== */}
-
-      <section className="border-b border-white/6 py-24 lg:py-28">
+      <section style={sectionStyle}>
         <Container>
-          <SectionLabel
-            n="01"
-            title="Gambaran Singkat"
-            sub="Ringkasan informasi proyek, termasuk peran, klien, framework, database, dan arsitektur sistem."
-          />
-
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <StatCard
-              icon={<Database size={18} />}
-              value={<p style={{ fontSize: '1.3rem' }}>Mobile App Developer</p> }
-              label="Role"
-            />
-
-            <StatCard
-              icon={<Layers size={18} />}
-              value={<p style={{ fontSize: '1.3rem' }}>PT Honoris Industry</p> }
-              label="Client"
-            />
-
-            <StatCard
-              icon={<CalendarDays size={18} />}
-              value={<p style={{ fontSize: '1.3rem' }}>Flutter , Laravel REST API, MySQL</p> }
-              label="Framework & Database"
-            />
-
-            <StatCard
-              icon={<Target size={18} />}
-              value={<p style={{ fontSize: '1.3rem' }}>Flutter → REST API → Laravel → MySQL</p>}
-              label="Arsitektur"
-            />
+          <SectionLabel n="01" title="Gambaran Singkat" sub="Informasi peran, klien, framework, database, dan arsitektur sistem." />
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 240px), 1fr))", gap: 18 }}>
+            <StatCard icon={<Database size={18} />} value="Mobile Dev" label="Peran dalam pengembangan aplikasi" />
+            <StatCard icon={<Layers size={18} />} value="PT Honoris" label="Klien — perusahaan manufaktur lampu LED" />
+            <StatCard icon={<CalendarDays size={18} />} value="2025" label="Periode Praktik Kerja Lapangan" />
+            <StatCard icon={<Target size={18} />} value="REST API" label="Arsitektur integrasi backend" />
           </div>
         </Container>
       </section>
 
-      {/* =====================================================
-          02 — LATAR BELAKANG
-      ===================================================== */}
-
-      <section className="border-b border-white/6 py-24 lg:py-28">
+      <section style={sectionStyle}>
         <Container>
-          <SectionLabel
-            n="02"
-            title="Latar Belakang & Tujuan"
-            sub="Masalah yang melatarbelakangi pembangunan sistem dan tujuan yang ingin dicapai."
-          />
-
-          <div className="grid gap-5 lg:grid-cols-[1.3fr_0.7fr]">
-            <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-7 sm:p-8">
-              <div className="mb-6 flex items-center gap-3">
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-500/10 text-amber-400">
-                  <AlertTriangle size={17} />
-                </div>
-
-                <h3 className="font-['Space_Grotesk'] text-lg font-semibold text-slate-100">
-                  Permasalahan
-                </h3>
+          <SectionLabel n="02" title="Latar Belakang & Tujuan" sub="Transisi dari sistem berbasis website ke aplikasi mobile." />
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 300px), 1fr))", gap: 20 }}>
+            <div style={{ background: C.navyMid, border: `1px solid ${C.navyLight}`, borderRadius: 10, padding: 32 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
+                <span style={{ width: 36, height: 36, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", background: C.goldSoft, color: C.gold }}><AlertTriangle size={17} /></span>
+                <h3 style={{ fontFamily: C.serif, fontSize: 22, fontWeight: 600, color: C.cream, margin: 0 }}>Permasalahan</h3>
               </div>
-
-              <p className="font-['IBM_Plex_Sans'] text-sm leading-8 text-slate-400">
-                Sistem HI Inventory yang sebelumnya berbasis website memiliki keterbatasan 
-                dalam hal fleksibilitas dan kemudahan akses melalui perangkat mobile. 
-                Pengguna perlu mengakses sistem melalui browser untuk melakukan pengelolaan 
-                data inventori, khususnya pada proses pemasukan dan pengeluaran barang 
-                produksi. Kondisi tersebut mendorong kebutuhan akan aplikasi mobile 
-                yang lebih praktis dan mudah digunakan.
+              <p style={{ fontFamily: C.sans, fontSize: 14, lineHeight: 1.8, color: C.gray, margin: 0 }}>
+                HI Inventory yang sebelumnya berbasis website memiliki keterbatasan fleksibilitas
+                dan akses mobile. Pengguna harus membuka browser untuk mengelola data inventori,
+                khususnya pada proses barang masuk dan keluar — kurang praktis bagi staf lapangan.
               </p>
             </div>
-
-            <div className="rounded-2xl border border-amber-500/15 bg-amber-500/[0.035] p-7 sm:p-8">
-              <div className="mb-6 flex items-center gap-3">
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-500/10 text-amber-400">
-                  <Target size={17} />
-                </div>
-
-                <h3 className="font-['Space_Grotesk'] text-lg font-semibold text-slate-100">
-                  Tujuan Sistem
-                </h3>
+            <div style={{ background: "rgba(212,175,55,0.05)", border: "1px solid rgba(212,175,55,0.3)", borderRadius: 10, padding: 32 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
+                <span style={{ width: 36, height: 36, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", background: C.goldSoft, color: C.gold }}><Target size={17} /></span>
+                <h3 style={{ fontFamily: C.serif, fontSize: 22, fontWeight: 600, color: C.cream, margin: 0 }}>Tujuan Sistem</h3>
               </div>
-
-              <p className="font-['IBM_Plex_Sans'] text-sm leading-8 text-slate-400">
-                Mengembangkan HI Inventory versi mobile menggunakan Flutter dengan memanfaatkan 
-                backend Laravel dan database MySQL yang sudah tersedia. Aplikasi ini bertujuan 
-                untuk mempermudah pengguna dalam mengakses, mencatat, dan memantau data barang masuk 
-                dan barang keluar melalui perangkat mobile, tanpa mengubah sistem backend dan database 
-                yang telah digunakan sebelumnya.
+              <p style={{ fontFamily: C.sans, fontSize: 14, lineHeight: 1.8, color: C.gray, margin: 0 }}>
+                Membangun HI Inventory versi mobile dengan Flutter tanpa mengubah sistem backend
+                Laravel dan database MySQL yang sudah ada — mempermudah akses, pencatatan, dan
+                pemantauan data barang masuk/keluar dari perangkat mobile.
               </p>
             </div>
           </div>
         </Container>
       </section>
 
-      {/* =====================================================
-          03 — METODOLOGI
-      ===================================================== */}
-
-      <section className="border-b border-white/6 py-24 lg:py-28">
+      <section style={sectionStyle}>
         <Container>
-          <SectionLabel
-            n="03"
-            title="Metodologi"
-            sub="Tahapan System Development Life Cycle (SDLC) yang digunakan dalam proses penelitian."
-          />
-
-          <div className="max-w-4xl">
-            <TimelineItem
-              n="1"
-              title="Analisis Kebutuhan"
-              desc="Mengidentifikasi kebutuhan pengguna dan fitur pada HI Inventory yang perlu tersedia dalam versi mobile."
-            />
-
-            <TimelineItem
-              n="2"
-              title="Perancangan Sistem"
-              desc="Merancang antarmuka aplikasi mobile serta menentukan alur komunikasi antara Flutter, REST API Laravel, dan database MySQL."
-            />
-
-            <TimelineItem
-              n="3"
-              title="Implementasi"
-              desc="Mengembangkan aplikasi mobile menggunakan Flutter dan Dart, kemudian mengintegrasikannya dengan Laravel REST API."
-            />
-
-            <TimelineItem
-              n="4"
-              title="Pengujian"
-              desc="Menguji fungsi aplikasi, integrasi API, proses pengambilan dan pengiriman data, serta memastikan fitur berjalan sesuai kebutuhan."
-            />
-
-            <TimelineItem
-              n="5"
-              title="Implementasi & Pemeliharaan"
-              desc="Melakukan perbaikan apabila ditemukan masalah dan menyesuaikan aplikasi berdasarkan kebutuhan pengguna."
-              last
-            />
+          <SectionLabel n="03" title="Metodologi" sub="Tahapan SDLC yang digunakan dalam proses pengembangan." />
+          <div style={{ maxWidth: 760 }}>
+            <TimelineItem n="1" title="Analisis Kebutuhan" desc="Mengidentifikasi kebutuhan pengguna dan fitur HI Inventory yang perlu tersedia dalam versi mobile." />
+            <TimelineItem n="2" title="Perancangan Sistem" desc="Merancang antarmuka mobile serta menentukan alur komunikasi antara Flutter, REST API Laravel, dan MySQL." />
+            <TimelineItem n="3" title="Implementasi" desc="Mengembangkan aplikasi mobile menggunakan Flutter dan Dart, kemudian mengintegrasikannya dengan Laravel REST API." />
+            <TimelineItem n="4" title="Pengujian" desc="Menguji fungsi aplikasi, integrasi API, pengambilan & pengiriman data, serta memastikan fitur berjalan sesuai kebutuhan." />
+            <TimelineItem n="5" title="Implementasi & Pemeliharaan" desc="Melakukan perbaikan berdasarkan temuan pengujian dan menyesuaikan aplikasi dengan kebutuhan pengguna." last />
           </div>
         </Container>
       </section>
 
-      {/* =====================================================
-          04 — EVALUASI
-      ===================================================== */}
-
-      <section className="border-b border-white/6 py-24 lg:py-28">
+      <section style={sectionStyle}>
         <Container>
-          <SectionLabel
-            n="04"
-            title="Hasil Evaluasi Sistem"
-            sub="Performa Sistem pada data uji setelah proses cross-validation per produk."
-          />
-
-          <div className="mb-6 overflow-hidden rounded-2xl border border-amber-500/20 bg-linear-to-br from-amber-500/9 via-white/3 to-transparent p-7 sm:p-8">
-            <div className="flex flex-col justify-between gap-8 md:flex-row md:items-end">
-              <div>
-                <div className="mb-3 flex items-center gap-2">
-                  <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-amber-400">
-
-                  </span>
-                </div>
-
-                <h3 className="font-['Space_Grotesk'] text-2xl font-bold text-white sm:text-3xl">
-                  Evaluation: Functional Testing & Integration Testing
-                </h3>
-
-                <p className="mt-3 max-w-2xl font-['IBM_Plex_Sans'] text-sm leading-6 text-slate-400">
-                  Functional Testing & Integration Testing untuk memastikan fitur aplikasi 
-                  berjalan sesuai kebutuhan serta komunikasi antara Flutter, Laravel REST API, dan MySQL berjalan dengan baik.
-                </p>
+          <SectionLabel n="04" title="Hasil Evaluasi Sistem" sub="Functional Testing & Integration Testing antar komponen." />
+          <div style={{ background: "rgba(212,175,55,0.05)", border: "1px solid rgba(212,175,55,0.3)", borderRadius: 10, padding: "clamp(24px, 5vw, 40px)", display: "flex", flexWrap: "wrap", gap: 32, alignItems: "center", justifyContent: "space-between" }}>
+            <div style={{ maxWidth: 620 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 14 }}>
+                <Database size={15} style={{ color: C.gold }} />
+                <span style={{ fontFamily: C.mono, fontSize: 10, letterSpacing: "0.22em", color: C.gold, fontWeight: 600 }}>EVALUATION</span>
               </div>
-              </div>
+              <h3 style={{ fontFamily: C.serif, fontSize: "clamp(1.6rem, 3vw, 2.2rem)", fontWeight: 600, color: C.cream, margin: 0, lineHeight: 1.2 }}>
+                Functional & Integration Testing
+              </h3>
+              <p style={{ fontFamily: C.sans, fontSize: 14, lineHeight: 1.7, color: C.gray, marginTop: 12 }}>
+                Memastikan seluruh fitur aplikasi berjalan sesuai kebutuhan dan komunikasi
+                antara Flutter, Laravel REST API, serta MySQL berjalan dengan baik tanpa error.
+              </p>
             </div>
-        </Container>
-      </section>
-
-      {/* =====================================================
-          05 — FITUR APLIKASI
-      ===================================================== */}
-
-      <section className="border-b border-white/6 py-24 lg:py-28">
-        <Container>
-          <SectionLabel
-            n="06"
-            title="Fitur Aplikasi HI Inventory"
-            sub="Antarmuka aplikasi mobile yang menampilkan fitur-fitur utama untuk pengelolaan data inventori."
-          />
-
-          <div className="grid gap-5 md:grid-cols-2">
-            <FeatureItem
-              number="01"
-              title="Dashboard Home"
-              desc="Memperlihatkan ringkasan data inventori, termasuk total produk, stok rendah, dan transaksi saat ini."
-              src={gambar1img}
-            />
-
-            <FeatureItem
-              number="02"
-              title="Dashboard Pemasukan Barang"
-              desc="Menampilkan data barang masuk, termasuk detail produk, jumlah, dan tanggal pemasukan."
-              src={gambar2img}
-            />
-
-            <FeatureItem
-              number="03"
-              title="Dashboard Pengeluaran Barang"
-              desc="Menampilkan data barang keluar, termasuk detail produk, jumlah, dan tanggal pengeluaran."
-              src={gambar3img}
-            />
-
-            <FeatureItem
-              number="04"
-              title="Dashboard Laporan WIP"
-              desc="Menampilkan data wip bulan dan tahun"
-              src={gambar4img}
-            />
-
-            <FeatureItem
-              number="05"
-              title="Dashboard Stock Opname"
-              desc="Menampilkan data stock opname bulan , tahun dan NO BA"
-              src={gambar5img}  
-            />
-
-             <FeatureItem
-              number="06"
-              title="Dashboard Mutasi Bahan Baku"
-              desc="Menampilkan Laporan mutasi bahan baku periode tahun"
-              src={gambar6img}  
-            />
-
-            <FeatureItem
-              number="07"
-              title="Dashboard Mutasi Barang Jadi"
-              desc="Menampilkan Laporan mutasi barang jadi periode tahun"
-              src={gambar7img}  
-            />
-
-            <FeatureItem
-              number="08"
-              title="Dashboard Mutasi Barang Sisa"
-              desc="Menampilkan Laporan mutasi barang sisa periode tahun"
-              src={gambar8img}  
-            />
-
-            <FeatureItem
-              number="09"
-              title="Dashboard Mutasi Mesin"
-              desc="Menampilkan Laporan mutasi mesin periode tahun"
-              src={gambar9img}  
-            />
-
-            <FeatureItem
-              number="10"
-              title="Dashboard Halaman Upload Barang Masuk"
-              desc="Menampilkan Halaman CRUD Upload Barang Masuk."
-              src={gambar10img}  
-            />
-
-            <FeatureItem
-              number="11"
-              title="Dashboard Halaman Upload Barang Keluar"
-              desc="Menampilkan Halaman CRUD Upload Barang Keluar."
-              src={gambar11img}  
-            />
-
-            <FeatureItem
-              number="12"
-              title="Dashboard Laporan Summary Bahan Baku"
-              desc="Menampilkan Laporan Summary Bahan Baku."
-              src={gambar12img}  
-            />
-
-            <FeatureItem
-              number="13"
-              title="Dashboard Laporan Summary Bahan Jadi"
-              desc="Menampilkan Laporan Summary Bahan Jadi."
-              src={gambar13img}  
-            />
-          </div>
-        </Container>
-      </section>
-
-      {/* =====================================================
-          06 — KETERBATASAN
-      ===================================================== */}
-
-      <section className="border-b border-white/6 py-24 lg:py-28">
-        <Container>
-          <SectionLabel
-            n="06"
-            title="Keterbatasan & Pengembangan Lanjutan"
-            sub="Ruang pengembangan sistem yang masih dapat ditingkatkan pada versi berikutnya."
-          />
-
-          <div className="relative overflow-hidden rounded-2xl border border-amber-500/20 bg-amber-500/[0.035] p-7 sm:p-8">
-            <div className="absolute right-0 top-0 h-32 w-32 translate-x-1/3 -translate-y-1/3 rounded-full bg-amber-500/10 blur-3xl" />
-
-            <div className="relative flex gap-5">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber-500/10 text-amber-400">
-                <AlertTriangle size={19} />
-              </div>
-
-              <div>
-                <h3 className="font-['Space_Grotesk'] text-lg font-semibold text-slate-100">
-                  Penanganan Keterbatasan
-                </h3>
-
-                <p className="mt-3 max-w-3xl font-['IBM_Plex_Sans'] text-sm leading-7 text-slate-400">
-                  Aplikasi HI Inventory Mobile masih berfokus pada pengelolaan barang masuk dan barang keluar 
-                  serta bergantung pada backend dan koneksi REST API yang telah tersedia. Pengembangan selanjutnya 
-                  dapat mencakup penambahan dashboard dan laporan inventori, fitur barcode/QR Code, notifikasi, 
-                  offline synchronization, peningkatan keamanan dan hak akses, serta usability testing untuk meningkatkan 
-                  efektivitas dan pengalaman pengguna.
-                </p>
-              </div>
+            <div style={{ textAlign: "center" }}>
+              <span style={{ fontFamily: C.serif, fontSize: "clamp(3rem, 12vw, 4.5rem)", fontWeight: 600, color: C.gold, lineHeight: 1 }}>✓</span>
+              <p style={{ fontFamily: C.mono, fontSize: 10, letterSpacing: "0.2em", color: C.stone, marginTop: 6 }}>ALL PASSED</p>
             </div>
           </div>
         </Container>
       </section>
 
-      {/* =====================================================
-          07 — TECH STACK
-      ===================================================== */}
-
-      <section className="border-b border-white/6 py-24 lg:py-28">
+      <section style={sectionStyle}>
         <Container>
-          <SectionLabel
-            n="07"
-            title="Tech Stack"
-            sub="Teknologi yang digunakan untuk membangun, melatih, dan menjalankan sistem."
-          />
-
-          <div className="flex flex-wrap gap-3">
-            {stack.map((s) => (
-              <StackChip key={s} name={s} />
-            ))}
+          <SectionLabel n="05" title="Fitur Aplikasi HI Inventory" sub="Antarmuka mobile untuk pengelolaan data inventori." />
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 320px), 1fr))", gap: 20 }}>
+            <FeatureItem number="01" title="Dashboard Home" desc="Ringkasan data inventori: total produk, stok rendah, dan transaksi saat ini." src={gambar1img} />
+            <FeatureItem number="02" title="Pemasukan Barang" desc="Data barang masuk dengan detail produk, jumlah, dan tanggal pemasukan." src={gambar2img} />
+            <FeatureItem number="03" title="Pengeluaran Barang" desc="Data barang keluar dengan detail produk, jumlah, dan tanggal pengeluaran." src={gambar3img} />
+            <FeatureItem number="04" title="Laporan WIP" desc="Data Work In Progress per bulan dan tahun." src={gambar4img} />
+            <FeatureItem number="05" title="Stock Opname" desc="Data stock opname dengan filter bulan, tahun, dan NO BA." src={gambar5img} />
+            <FeatureItem number="06" title="Mutasi Bahan Baku" desc="Laporan mutasi bahan baku per periode tahun." src={gambar6img} />
+            <FeatureItem number="07" title="Mutasi Barang Jadi" desc="Laporan mutasi barang jadi per periode tahun." src={gambar7img} />
+            <FeatureItem number="08" title="Mutasi Barang Sisa" desc="Laporan mutasi barang sisa per periode tahun." src={gambar8img} />
+            <FeatureItem number="09" title="Mutasi Mesin" desc="Laporan mutasi mesin per periode tahun." src={gambar9img} />
+            <FeatureItem number="10" title="Upload Barang Masuk" desc="Halaman CRUD untuk unggah data barang masuk." src={gambar10img} />
+            <FeatureItem number="11" title="Upload Barang Keluar" desc="Halaman CRUD untuk unggah data barang keluar." src={gambar11img} />
+            <FeatureItem number="12" title="Summary Bahan Baku" desc="Laporan ringkasan penggunaan bahan baku." src={gambar12img} />
+            <FeatureItem number="13" title="Summary Bahan Jadi" desc="Laporan ringkasan produksi bahan jadi." src={gambar13img} />
           </div>
         </Container>
       </section>
 
-      {/* =====================================================
-          FOOTER
-      ===================================================== */}
+      <section style={sectionStyle}>
+        <Container>
+          <SectionLabel n="06" title="Keterbatasan & Pengembangan Lanjutan" sub="Ruang pengembangan sistem pada versi berikutnya." />
+          <div style={{ background: "rgba(212,175,55,0.05)", border: "1px solid rgba(212,175,55,0.3)", borderRadius: 10, padding: 32, display: "flex", gap: 20 }}>
+            <span style={{ width: 40, height: 40, borderRadius: 8, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", background: C.goldSoft, color: C.gold }}><AlertTriangle size={19} /></span>
+            <div>
+              <h3 style={{ fontFamily: C.serif, fontSize: 22, fontWeight: 600, color: C.cream, margin: 0 }}>Penanganan Keterbatasan</h3>
+              <p style={{ fontFamily: C.sans, fontSize: 14, lineHeight: 1.8, color: C.gray, marginTop: 10, maxWidth: 760 }}>
+                Aplikasi masih bergantung pada backend dan koneksi REST API yang sudah ada.
+                Pengembangan selanjutnya: penambahan dashboard analitik, fitur barcode/QR Code,
+                notifikasi real-time, offline synchronization, peningkatan keamanan & hak akses,
+                serta usability testing untuk pengalaman pengguna yang lebih baik.
+              </p>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      <section style={sectionStyle}>
+        <Container>
+          <SectionLabel n="07" title="Tech Stack" sub="Teknologi yang digunakan untuk membangun sistem." />
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
+            {stack.map((s) => <StackChip key={s} name={s} />)}
+          </div>
+        </Container>
+      </section>
 
       <footer>
-        <Container className="flex flex-col gap-6 py-12 sm:flex-row sm:items-center sm:justify-between">
+        <Container style={{ padding: "clamp(32px, 6vw, 48px) clamp(20px,4vw,40px)", display: "flex", flexWrap: "wrap", gap: 24, alignItems: "center", justifyContent: "space-between" }}>
           <div>
-            <p className="font-['Space_Grotesk'] text-sm font-semibold text-slate-300">
-              Bayu Setiawan
-            </p>
-
-            <p className="mt-1 font-mono text-[10px] tracking-[0.12em] text-slate-600">
-              SISTEM PREDIKSI PRODUKSI LAMPU · 2026
-            </p>
+            <p style={{ fontFamily: C.serif, fontSize: 19, fontWeight: 600, color: C.cream, margin: 0 }}>Bayu Setiawan</p>
+            <p style={{ fontFamily: C.mono, fontSize: 10, letterSpacing: "0.16em", color: C.stone, marginTop: 6 }}>MAGANG · HI INVENTORY MOBILE REDESIGN · 2025</p>
           </div>
-
-          <button
-            onClick={onBack}
-            className="group inline-flex items-center gap-2 self-start rounded-lg border border-white/8 px-4 py-2.5 font-['IBM_Plex_Sans'] text-[10px] font-semibold tracking-[0.12em] text-slate-500 transition-all duration-300 hover:border-amber-500/30 hover:text-amber-400 sm:self-auto"
-          >
-            <ArrowLeft
-              size={13}
-              className="transition-transform duration-300 group-hover:-translate-x-1"
-            />
-
-            KEMBALI KE PORTOFOLIO
+          <button onClick={onBack} style={{ display: "inline-flex", alignItems: "center", gap: 8, border: `1px solid ${C.navyLight}`, borderRadius: 4, padding: "11px 18px", fontFamily: C.sans, fontSize: 10.5, fontWeight: 600, letterSpacing: "0.14em", color: C.gray, background: "none", cursor: "pointer" }}>
+            <ArrowLeft size={13} /> KEMBALI KE PORTOFOLIO
           </button>
         </Container>
       </footer>

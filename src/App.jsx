@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Mail, FileDown, ArrowUpRight } from "lucide-react";
-import cvFile from "./assets/CV_Bayu_Setiawanv.pdf";
+import cvFile from "./assets/BAYUSETIAWANV_CV.pdf";
 import SkripsiDetail from "./SkripsiDetail";
 import Skripsidetail2 from "./Skripsidetail2";
 import Skripsidetail3 from "./Skripsidetail3";
 import ProjectsArchive from "./ProjectsArchive";
+import LamarKerjaDetail from "./LamarKerjaDetail"; // <-- IMPORT BARU
+import Certifications from "./Certifications";
 import "./index.css";
 
 const SOCIALS = {
@@ -13,23 +15,9 @@ const SOCIALS = {
   instagram: "📸",
 };
 
-
-function useGoogleFonts() {
-  useEffect(() => {
-    const id = "portfolio-fonts";
-    if (document.getElementById(id)) return;
-    const link = document.createElement("link");
-    link.id = id;
-    link.rel = "stylesheet";
-    link.href =
-      "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap";
-    document.head.appendChild(link);
-  }, []);
-}
-
 function IconLink({ href, label, emoji }) {
   return (
-    <a href={href} className="icon-link">
+    <a href={href} className="icon-link" target="_blank" rel="noreferrer">
       <span>{emoji}</span>
       <span>{label}</span>
     </a>
@@ -70,9 +58,16 @@ function MetricCard({ label, value, unit }) {
   );
 }
 
-function ProjectRow({ tag, title, desc, metrics, tags, href, date, onOpen }) {
-  const content = (
-    <>
+function ProjectRow({ tag, title, desc, metrics, tags, date, onOpen }) {
+  return (
+    <a
+      href="#"
+      className="project-card"
+      onClick={(e) => {
+        e.preventDefault();
+        onOpen();
+      }}
+    >
       <div className="project-tag-row">
         <span className="project-tag">{tag}</span>
         {date && <span className="project-date">{date}</span>}
@@ -96,84 +91,52 @@ function ProjectRow({ tag, title, desc, metrics, tags, href, date, onOpen }) {
           ))}
         </div>
       )}
-    </>
-  );
-
-  if (onOpen) {
-    return (
-      <a
-        href="#"
-        className="project-card"
-        onClick={(e) => {
-          e.preventDefault();
-          onOpen();
-        }}
-      >
-        {content}
-      </a>
-    );
-  }
-
-  return (
-    <a href={href} className="project-card">
-      {content}
     </a>
   );
 }
 
 export default function Portfolio() {
-  useGoogleFonts();
   const [copied, setCopied] = useState(false);
-  const [page, setPage] = useState("home"); 
+  const [page, setPage] = useState("home"); // Kembali ke "home" sebagai default
   const [scrollY, setScrollY] = useState(0);
   const email = "bayusetiawanv916@gmail.com";
 
   const openPage = (target) => {
-  setScrollY(window.scrollY); // simpan posisi saat ini
-  setPage(target);
+    setScrollY(window.scrollY);
+    setPage(target);
   };
 
   const goHome = () => {
-  setPage("home");
-
-  // tunggu Home dirender, lalu kembalikan scroll
-  setTimeout(() => {
-    window.scrollTo({
-      top: scrollY,
-      behavior: "smooth",
-    });
-  }, 50);
+    setPage("home");
+    setTimeout(() => {
+      window.scrollTo({ top: scrollY, behavior: "smooth" });
+    }, 50);
   };
 
+  // Stack diperbarui sesuai CV terbaru (lebih modern & terstruktur)
   const stack = [
-    "Python","JavaScript","Dart", "Php","Scikit-learn", "Random Forest", "Pandas", "NumPy",
-    "Flask", "Html/Css", "Bootstrap", "Google Colab", "Git","React", "Mysql", "Restful API", "Flutter", "Laravel", "Android Mobile", 
+    "Python", "JavaScript", "TypeScript", "PHP", "Dart", "HTML5", "CSS3",
+    "NextJS", "ReactJS", "Tailwind CSS", "Zustand", "Flutter",
+    "FastAPI", "Flask", "Laravel", "RESTful API Design", "Pydantic", "Asynchronous Programming (async/await)",
+    "PostgreSQL", "MySQL", "SQLAlchemy (Async ORM)", "Neon (Serverless DB)",
+    "LLM Integration (Groq API, Llama 3)", "Prompt Engineering", "Agentic AI", "Scikit-learn", "Pandas",
+    "Random Forest Regression", "Time Series Cross-Validation", "PyMuPDF", "JSON Parsing", "Regular Expression (Regex)",
+    "Git", "GitHub", "Vercel", "Railway", "Postman", "Google Colab", "VS Code", "Chrome DevTools",
   ];
 
-  
-
-  if (page === "skripsi") {
-    return <SkripsiDetail onBack={goHome} />;
-  }
-
-  if (page === "internship") {
-  return <Skripsidetail2 onBack={goHome} />;
-  }
-
-  if (page === "research") {
-  return <Skripsidetail3 onBack={goHome} />;
-  }
-
-  if (page === "anual") {
-  return <ProjectsArchive onBack={goHome} />;
-  }
+  // Routing untuk semua halaman detail
+  if (page === "lamarKerja") return <LamarKerjaDetail onBack={goHome} />;
+  if (page === "skripsi") return <SkripsiDetail onBack={goHome} />;
+  if (page === "internship") return <Skripsidetail2 onBack={goHome} />;
+  if (page === "research") return <Skripsidetail3 onBack={goHome} />;
+  if (page === "anual") return <ProjectsArchive onBack={goHome} />;
 
   return (
     <div>
       {/* NAV */}
       <nav className="navbar">
         <div className="portfolio-container navbar-inner">
-          <span className="nav-name">BAYU SETIAWAN</span>
+          <span className="nav-name">Bayu Setiawan</span>
           <div className="nav-links">
             {["Proyek", "Skill", "Tentang", "Kontak"].map((item) => (
               <a key={item} href={`#${item.toLowerCase()}`}>
@@ -187,62 +150,52 @@ export default function Portfolio() {
       {/* HERO */}
       <header className="hero">
         <div className="portfolio-container">
-          <div className="hero-eyebrow">PORTOFOLIO — SOFTWARE ENGINEER &amp; MACHINE LEARNING</div>
+          <div className="hero-eyebrow">SOFTWARE & AI ENGINEER</div>
           <div className="hero-top">
             <div
               className="profile-image"
               style={{
                 width: 140,
                 height: 140,
-                background: "linear-gradient(135deg, #2E4E55, #141B1E)",
+                background: "linear-gradient(135deg, #1B263B, #0D1B2A)",
               }}
             >
-              <span style={{ fontFamily: "'Space Grotesk',sans-serif", color: "#F0A93A", fontSize: "2rem", fontWeight: 700 }}>
+              <span style={{ fontFamily: "'Cormorant Garamond', serif", color: "#D4AF37", fontSize: "2.5rem", fontWeight: 700 }}>
                 BS
               </span>
             </div>
             <h1 className="hero-title">
-              Menulis kode yang menyelesaikan masalah nyata, <span>bukan sekadar berjalan di laptop sendiri.</span>
+              Membangun solusi digital yang <span>skalabel, terukur, dan berdampak.</span>
             </h1>
           </div>
-
           <div className="hero-cta">
             <a href={`mailto:${email}`} className="btn btn-primary">
-              <Mail size={15} /> bayusetiawanv916@gmail.com
+              <Mail size={15} /> Hubungi Saya
             </a>
-            <a
-               href={cvFile}
-               download="CV_BAYUSETIAWAN.pdf"
-               className="btn btn-secondary"
-              >
-               <FileDown size={15} />
-                CV SAYA
+            <a href={cvFile} download="BAYUSETIAWANV_CV.pdf" className="btn btn-secondary">
+              <FileDown size={15} /> Unduh CV
             </a>
           </div>
-
           <div className="social-row">
-            <IconLink href="https://www.linkedin.com/in/bayu-setiawan-7b51a6349?utm_source=share_via&utm_content=profile&utm_medium=member_ios" label="LinkedIn" emoji={SOCIALS.linkedin} />
+            <IconLink href="https://www.linkedin.com/in/bayu-setiawan-7b51a6349" label="LinkedIn" emoji={SOCIALS.linkedin} />
             <IconLink href="https://github.com/BayuSetiawanv" label="GitHub" emoji={SOCIALS.github} />
-            <IconLink href="https://www.instagram.com/_bayusetiawanv?igsi=MTVvMHBpcm1heTZ3&wa_status_inline=true" label="Instagram" emoji={SOCIALS.instagram} />
+            <IconLink href="https://www.instagram.com/_bayusetiawanv" label="Instagram" emoji={SOCIALS.instagram} />
           </div>
-
-          <p className="hero-intro">
-           <h1 clasname="hero-intro"> Halo, Saya Bayu Setiawan.</h1>
-            Software Engineer yang membangun solusi melalui teknologi dan data.
+          <div className="hero-intro">
             <p>
-           <h1>  Saya senang mengubah permasalahan nyata menjadi solusi digital — mulai 
-            dari aplikasi web dan mobile, sistem backend, hingga model Machine Learning yang 
-            terintegrasi ke dalam aplikasi.
-            Mari lihat perjalanan, proyek, dan solusi yang telah saya bangun. </h1> 
+              Halo, saya <strong>Bayu Setiawan</strong>. Software & AI Engineer yang berfokus pada pembangunan solusi <em>end-to-end</em>: mulai dari arsitektur backend, integrasi database, hingga deployment model Machine Learning dan LLM ke lingkungan produksi.
             </p>
-          </p>
+            <p>
+              Saya percaya bahwa kode yang baik bukan hanya yang berjalan di laptop sendiri, tetapi yang mampu menjembatani <strong>model AI yang kompleks dengan aplikasi web/mobile yang production-ready</strong>, serta memberikan dampak bisnis yang nyata.
+            </p>
+          </div>
         </div>
       </header>
 
       {/* STACK */}
       <section id="skill" className="section">
         <div className="portfolio-container">
-          <SectionLabel n="01" title="Stack Saya 🚀" />
+          <SectionLabel n="01" title="Tech Stack" sub="Teknologi dan framework yang saya gunakan dalam pembangunan solusi." />
           <div className="stack-row">
             {stack.map((s) => (
               <StackChip key={s} name={s} />
@@ -254,52 +207,64 @@ export default function Portfolio() {
       {/* PROJECTS */}
       <section id="proyek" className="section">
         <div className="portfolio-container">
-          <SectionLabel n="02" title="Project Terbaru" sub="Beberapa project yang sudah saya bangun" />
+          <SectionLabel n="02" title="Proyek Unggulan" sub="Solusi teknis yang telah saya rancang dan implementasikan di lingkungan industri." />
           <div className="projects-list">
+            
+            {/* PROYEK 1: LAMARKERJA.AI (BARU & PALING ATAS) */}
             <ProjectRow
-              tag="SKRIPSI"
+              tag="AI SAAS PLATFORM"
+              date="2026"
+              title="LamarKerja.AI — AI-Powered CV Optimizer"
+              desc="Platform SaaS full-stack yang memanfaatkan LLM (Groq API/Llama 3) untuk mengoptimalkan CV, menganalisis ATS score, dan generate cover letter. Dicapai 0% AI JSON parsing errors melalui robust prompt engineering dan fallback mechanisms."
+              tags={["next.js", "fastapi", "typescript", "groq-api", "postgresql", "vercel"]}
+              onOpen={() => openPage("lamarKerja")}
+            />
+
+            {/* PROYEK 2: SKRIPSI (DITAMBAHKAN METRIK BISNIS) */}
+            <ProjectRow
+              tag="MACHINE LEARNING"
               date="2026"
               title="Sistem Prediksi Produksi Lampu — PT Honoris Industry"
-              desc="Model Random Forest Regression untuk memprediksi kebutuhan produksi 10 varian lampu.
-               Dilatih di Google Colab dan di-deploy sebagai aplikasi web (Flask), 
-               lengkap dengan halaman evaluasi model dan cross-validation per produk."
+              desc="Aplikasi web Flask yang memprediksi kebutuhan produksi bulanan 10 varian lampu menggunakan Random Forest Regression. Berhasil mengurangi risiko overproduction sebesar ~3.900 unit/bulan melalui perencanaan yang lebih akurat."
               metrics={[
-                { label: "MAE", value: "3,797,26", unit: "" },
-                { label: "RMSE", value: "4,722,97", unit: "" },
-                { label: "R²", value: "0,81", unit: "" },
+                { label: "R² Score", value: "0,81", unit: "" },
                 { label: "MAPE", value: "8,29", unit: "%" },
+                { label: "RMSE", value: "4.722", unit: "" },
+                { label: "Data", value: "86", unit: "Bulan" },
               ]}
-              tags={["python", "randomforest", "flask", "colab"]}
+              tags={["python", "random-forest", "flask", "scikit-learn"]}
               onOpen={() => openPage("skripsi")}
             />
+
+            {/* PROYEK 3: MAGANG 1 */}
             <ProjectRow
-              tag="INTERNSHIP 2025"
-              title="Sistem Rekomendasi Kendaraan Berdasarkan Kubikasi Berbasis Mobile - PT Honoris Industry"
-              desc="Pengembangan aplikasi gudang berbasis mobile di PT Honoris Industry yang mampu mempercepat pencarian barang,
-               menghitung kubikasi dan berat secara otomatis, 
-               serta merekomendasikan kendaraan distribusi untuk meningkatkan efisiensi operasional gudang."
-              tags={["Flutter", "Dart", "Sqlite", "Restful API","android mobile"]}
+              tag="SOFTWARE ENGINEERING"
+              date="2025"
+              title="Sistem Kubikasi & Rekomendasi Kendaraan Distribusi"
+              desc="Aplikasi mobile gudang yang mempercepat pencarian barang, menghitung kubikasi dan berat secara otomatis, serta merekomendasikan kendaraan distribusi untuk meningkatkan efisiensi operasional logistik."
+              tags={["flutter", "dart", "sqlite", "algorithm"]}
               onOpen={() => openPage("internship")}
             />
+
+            {/* PROYEK 4: MAGANG 2 */}
             <ProjectRow
-              tag="INTERNSHIP 2025"
-              title="Pengembangan Aplikasi Mobile HI Inventory Berbasis Flutter dengan Integrasi REST API Laravel dan Database MySQL pada PT Honoris Industry"
-              desc="Proyek ini merupakan kegiatan redesain sistem HI Inventory milik 
-              PT Honoris Industry dari platform berbasis website menjadi aplikasi mobile 
-              menggunakan Flutter. Aplikasi dikembangkan untuk mempermudah proses pengelolaan data 
-              pemasukan dan pengeluaran barang produksi melalui perangkat mobile. 
-              Dalam implementasinya, aplikasi Flutter terintegrasi dengan backend Laravel melalui REST API dan database MySQL, 
-              sehingga proses pengelolaan dan akses data inventori dapat dilakukan secara lebih efektif dan efisien."
-              tags={["Flutter", "Dart", "MySQL", "Restful API", "Laravel", "Php", "Android Mobile"]}
+              tag="SOFTWARE ENGINEERING"
+              date="2025"
+              title="Redesain & Mobilisasi HI Inventory System"
+              desc="Migrasi sistem inventaris internal dari web ke aplikasi mobile Flutter. Mengintegrasikan REST API Laravel dan MySQL untuk mempercepat proses pemasukan/pengeluaran barang produksi secara real-time."
+              tags={["flutter", "laravel", "mysql", "restapi"]}
               onOpen={() => openPage("research")}
             />
+
+            {/* PROYEK 5: PROYEK LAINNYA (DIPERTAHANKAN TAPI DIPERHALUS NARASINYA) */}
             <ProjectRow
-              tag="PROYEK LAINNYA"
-              title="Beberapa Proyek Lainnya"
-              desc="Berikut beberapa proyek lain yang pernah saya kerjakan, termasuk proyek semasa kuliah dan proyek pribadi,
-              yang hilang karena data lama dan tidak sempat di-backup. Beberapa proyek ini mencakup pengembangan website,"
+              tag="ARSIP PROYEK"
+              title="Proyek Freelance & Pengembangan Pribadi"
+              desc="Kumpulan proyek lain yang pernah saya kerjakan, termasuk redesain website Bapenda Kota Bogor, website portofolio klien, dan sistem CRUD latihan. Lihat detail lengkap di halaman arsip."
+              tags={["php", "laravel", "react", "mysql"]}
               onOpen={() => openPage("anual")}
             />
+
           </div>
         </div>
       </section>
@@ -309,29 +274,30 @@ export default function Portfolio() {
         <div className="portfolio-container">
           <SectionLabel n="03" title="Tentang Saya" />
           <div className="about-card">
-            Halo! 👋 Saya Bayu Setiawan, Software Engineer fresh graduate
-            yang terbiasa membangun aplikasi web dan mobile secara end to end
-            dari backend, database, hingga integrasi API. Saya berpengalaman 
-            mengembangkan aplikasi web dan mobile menggunakan Flutter, Laravel, 
-            Flask, serta MySQL, termasuk membangun sistem prediksi produksi 
-            berbasis Random Forest dan meredesain sistem inventori perusahaan 
-            menjadi aplikasi mobile selama magang di PT Honoris Industry. 
-            Saya senang membangun solusi digital yang tidak hanya berfungsi 
-            dengan baik secara teknis, tetapi juga mampu menyelesaikan permasalahan 
-            nyata di lingkungan industri. Saat ini saya terbuka untuk kesempatan 
-            sebagai Software Engineer, Backend Developer, maupun Machine Learning Engineer.
+            <p style={{ marginBottom: '16px' }}>
+              Saya adalah Software & AI Engineer dengan pengalaman dalam membangun aplikasi <strong>end-to-end</strong> yang berbasis data. Saya memiliki rekam jejak yang kuat dalam mengembangkan sistem Machine Learning untuk industri manufaktur, termasuk model prediksi produksi (Random Forest, R² 0.81) yang mengoptimalkan perencanaan di 10 kategori produk, serta mengelola seluruh siklus hidup dari pra-pemrosesan data hingga deployment via Flask, Laravel, dan Flutter.
+            </p>
+            <p style={{ marginBottom: '16px' }}>
+              Baru-baru ini, saya memperluas keahlian saya ke pengembangan <strong>Full-Stack AI</strong> dengan merancang platform SaaS berbasis LLM (Next.js, FastAPI) yang memiliki fitur prompt engineering tingkat lanjut, parsing data tidak terstruktur secara real-time, dan deployment cloud yang skalabel.
+            </p>
+            <p>
+              Saya sangat nyaman menjembatani kesenjangan antara <strong>model AI yang kompleks dan aplikasi web/mobile yang production-ready</strong>. Saat ini, saya terbuka untuk berkontribusi sebagai Software Engineer atau AI Engineer di perusahaan yang berorientasi pada produk dan data.
+            </p>
           </div>
         </div>
       </section>
 
+      <Certifications />
+      
+
       {/* CONNECT */}
       <section id="kontak" className="section">
         <div className="portfolio-container">
-          <SectionLabel n="04" title="Jangan Sungkan 😁" sub="Terhubung dengan saya" />
+          <SectionLabel n="05" title="Mari Terhubung" sub="Terbuka untuk diskusi teknis, kolaborasi, atau peluang profesional." />
           <div className="connect-row">
-            <IconLink href="https://www.linkedin.com/in/bayu-setiawan-7b51a6349?utm_source=share_via&utm_content=profile&utm_medium=member_ios" label="LinkedIn" emoji={SOCIALS.linkedin} />
+            <IconLink href="https://www.linkedin.com/in/bayu-setiawan-7b51a6349" label="LinkedIn" emoji={SOCIALS.linkedin} />
             <IconLink href="https://github.com/BayuSetiawanv" label="GitHub" emoji={SOCIALS.github} />
-            <IconLink href="https://www.instagram.com/_bayusetiawanv?igsi=MTVvMHBpcm1heTZ3&wa_status_inline=true" label="Instagram" emoji={SOCIALS.instagram} />
+            <IconLink href="https://www.instagram.com/_bayusetiawanv" label="Instagram" emoji={SOCIALS.instagram} />
             <button
               onClick={() => {
                 navigator.clipboard?.writeText(email);
@@ -350,18 +316,9 @@ export default function Portfolio() {
       {/* FOOTER */}
       <footer className="footer">
         <div className="portfolio-container footer-inner">
-          <span className="footer-copy">© 2026 Bayu Setiawan — dibuat manual, bukan generator portofolio.</span>
-          <div className="footer-links">
-            {[""].map((item) => (
-              <a key={item} href={`#${item.toLowerCase()}`}>
-                {item}
-              </a>
-            ))}
-          </div>
+          <span className="footer-copy">© {new Date().getFullYear()} Bayu Setiawan — Dirancang & dibangun secara manual.</span>
         </div>
       </footer>
     </div>
   );
 }
-
-          
